@@ -16,15 +16,3 @@ chrome.contextMenus.create({
     chrome.tabs.sendMessage(tab.id, 'addnote');
   }
 });
-
-const updatePopupHtml = () => undefined; // @todo link to popup.js somehow..?
-
-chrome.storage.onChanged.addListener((changes, areaName) => {
-  if (areaName === 'sync') {
-    console.log('in background.js -- a change detected in storage sync.');
-    console.log('changes:', changes);
-    const keys = Object.keys(changes);
-    console.log('in background.js keys:', keys);
-    keys.forEach(k => k !== 'note-current-index' && k.indexOf('url') === -1 ? updatePopupHtml(changes[k].newValue) : undefined);
-  }
-});

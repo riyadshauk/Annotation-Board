@@ -11,7 +11,7 @@
     "default_title": "Note Board"
  },
   "content_scripts": [ {
-     "js": [ "main.js", "background.js" ],
+     "js": [ "content.js", "background.js" ],
      "matches": [ "http://*/*", "https://*/*" ]
   } ],
   "description": "Highlight a selection that you want to save as a note to annotate.",
@@ -21,11 +21,11 @@
  },
   "manifest_version": 2,
   "name": "Note and Annotate",
-  "permissions": [ "contextMenus", "tabs", "http://*/*", "https://*/*", "storage" ],
+  "permissions": [ "contextMenus", "tabs", "http://*/*", "https://*/*", "storage", "file://*/*" ],
   "version": "1.0.0",
   "commands": {
     "_execute_page_action": {
-      "description": "Copy the link to the active pipeline",
+      "description": "Keyboard shortcut",
       "suggested_key": {
         "default": "Ctrl+Shift+A",
         "windows": "Ctrl+Shift+A",
