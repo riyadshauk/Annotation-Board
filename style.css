@@ -1,20 +1,46 @@
 body {
     background: lightgray;
     font: black;
-}
-
-.noteContainer {
+    font-size: 0.9em;
+ }
+ 
+ .noteContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
     background: lightblue;
     border: 1px solid black;
+    padding: 10px;
     margin: 10px;
-}
-
-#appcontent {
+    /* margin: 10px 0 10px 0; */
+    /* margin: auto; */
+ }
+ 
+ #appcontent {
     font-size: 40px;
     font-weight: bold;
+ }
+ 
+ .url {
+    margin: 10px 0 10px 0; 
+ }
+ 
+ form {
+    margin: 10px 0 10px 0;
+ }
 
-}
+ .annotation-input {
+    width: 100%;
+ }
+ 
+ .timestamp {
+    margin: 10px 0 10px 0; 
+ };
+ 
+ .note {
+    margin: 10px 0 10px 0; 
+ };
 
-.url {
-    margin: 25px 25px 25px 25px; 
-}
+ .notekey {
+     font-weight: bold;
+ }

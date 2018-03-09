@@ -1,3 +1,6 @@
+// @todo ifttt.com for google drive integration
+// @todo look into localStorage for better cross-platform interfacing (Firefox, eg)
+
 const getSelectionText2 = () => { // https://stackoverflow.com/questions/5379120/get-the-highlighted-selected-text
   let text = "";
   if (window.getSelection) {
