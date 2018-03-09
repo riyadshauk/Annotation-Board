@@ -1,0 +1,20 @@
+body {
+    background: lightgray;
+    font: black;
+}
+
+.noteContainer {
+    background: lightblue;
+    border: 1px solid black;
+    margin: 10px;
+}
+
+#appcontent {
+    font-size: 40px;
+    font-weight: bold;
+
+}
+
+.url {
+    margin: 25px 25px 25px 25px; 
+}

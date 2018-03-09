@@ -25,6 +25,6 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
     console.log('changes:', changes);
     const keys = Object.keys(changes);
     console.log('in background.js keys:', keys);
-    keys.forEach(k => k !== 'note-current-index' ? updatePopupHtml(changes[k].newValue) : undefined);
+    keys.forEach(k => k !== 'note-current-index' && k.indexOf('url') === -1 ? updatePopupHtml(changes[k].newValue) : undefined);
   }
 });

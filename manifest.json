@@ -22,5 +22,15 @@
   "manifest_version": 2,
   "name": "Note and Annotate",
   "permissions": [ "contextMenus", "tabs", "http://*/*", "https://*/*", "storage" ],
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "commands": {
+    "_execute_page_action": {
+      "description": "Copy the link to the active pipeline",
+      "suggested_key": {
+        "default": "Ctrl+Shift+A",
+        "windows": "Ctrl+Shift+A",
+        "mac": "Ctrl+Shift+A"
+      }
+    }
+  }
 }
