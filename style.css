@@ -1,25 +1,49 @@
 body {
-   background: lightgray;
-   font: black;
-   font-size: 0.9em;
+    background: lightgray;
+    color: black;
+    font-size: 0.9em;
+    margin-left: 0;
+    margin-right: 0;
+    /* One of {margin-top, margin-bottom} must be non-zero, o.w. scrolling breaks */
+    margin-top: 0.1;
+    margin-bottom: 0.1;
 }
-
 .noteContainer {
-   display: flex;
-   flex-direction: column;
-   justify-content: space-evenly;
-   background: lightblue;
-   border: 1px solid black;
-   padding: 10px;
-   margin: 10px;
-   /* margin: 10px 0 10px 0; */
-   /* margin: auto; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background: lightblue;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+    margin: 10px 0 10px 0;
 }
 .annotation-input {
     width: 100%;
 }
-
-#appcontent {
-   font-size: 40px;
-   font-weight: bold;
+form {
+    display: flex;
+}
+input:focus {
+    outline: none;
+}
+input {
+    border-radius: 5px;
+    border:1px solid #cccccc
+}
+.url {
+    overflow-wrap: break-word;
+}
+.clear {
+    width: 100%;
+    color: indianred;
+}
+.undoClear {
+    width: 100%;
+    color: cyan;
+}
+.header {
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
 }

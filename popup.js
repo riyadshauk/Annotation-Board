@@ -2,13 +2,43 @@ chrome.storage.sync.get('note-current-index', (idxObj) => {
   console.log('idxObj:', idxObj);
   const numNotes = idxObj['note-current-index'] + 1;
   const clearButton = document.createElement('input');
-  clearButton.setAttribute('class', 'button');
+  clearButton.setAttribute('class', 'clear');
   clearButton.setAttribute('type', 'button');
   clearButton.setAttribute('action', 'submit');
-  clearButton.setAttribute('value', '((Clear Board))');
+  clearButton.setAttribute('value', '((Clear Board –– cannot be undone!))');
   document.body.appendChild(clearButton);
 
-  clearButton.addEventListener('click', () => chrome.storage.sync.clear());
+  clearButton.addEventListener('click', () => {
+    let oldStorage;
+    chrome.storage.sync.get(null, (items) => {
+      var allKeys = Object.keys(items);
+      console.log('all storage:', items);
+      oldStorage = items;
+      chrome.storage.sync.clear(() => {
+        const oldStorageObj = {};
+        oldStorageObj.clearedStorage = oldStorage;
+        chrome.storage.sync.set(clearedStorage);
+      })
+    });
+  });
+
+  const undoClearButton = document.createElement('input');
+  undoClearButton.setAttribute('class', 'undoClear');
+  undoClearButton.setAttribute('type', 'button');
+  undoClearButton.setAttribute('action', 'submit');
+  undoClearButton.setAttribute('value', '((Undo Last Clear))');
+  document.body.appendChild(undoClearButton);
+
+  undoClearButton.addEventListener('click', () => {
+    console.log('@todo: get data from old-notecontainer{i} and old-annotation{i}, then set those');
+    chrome.storage.sync.get('clearedStorage', (items) => {
+      console.log('clearedStorage items:', items);
+      Array.from(items).forEach(e => {
+        console.log('item previousl cleared:', e);
+        chrome.storage.sync.set(e)
+      });
+    });
+  });
 
   for (let i = 0; i < numNotes; i++) {
     chrome.storage.sync.get(`notecontainer${i}`, (noteContainerObj) => {
@@ -18,6 +48,10 @@ chrome.storage.sync.get('note-current-index', (idxObj) => {
       const note = unwrappedContainer[noteKey];
       const noteUrlKey = 'note-url' + i;
       const noteUrl = unwrappedContainer[noteUrlKey];
+      const noteTimeKey = 'note-time' + i;
+      const noteTime = unwrappedContainer[noteTimeKey];
+      const noteNameKey = 'note-name' + i;
+      const noteName = unwrappedContainer[noteNameKey];
 
       const annotationInputElement = document.createElement('input');
       annotationInputElement.setAttribute('class', 'annotation-input');
@@ -26,6 +60,7 @@ chrome.storage.sync.get('note-current-index', (idxObj) => {
       annotationInputElement.setAttribute('placeholder', 'Add annotation here...');
 
       const formElement = document.createElement('form');
+      formElement.setAttribute('id', `form${i}`);
       formElement.appendChild(annotationInputElement);
 
       const inputButton = document.createElement('input');
@@ -37,9 +72,9 @@ chrome.storage.sync.get('note-current-index', (idxObj) => {
       const noteContainer = document.createElement('div');
       noteContainer.setAttribute('class', 'noteContainer');
       noteContainer.innerHTML = `
-          <div class="note"> <strong>${noteKey}</strong>: ${note}</div>
+          <div class="note"> <strong>${noteName}</strong>: ${note}</div>
           <div class="url"><strong>url:</strong> <a href="${noteUrl}">${noteUrl}</a></div>
-          <div class="timestamp"><strong>timestamp:</strong> {Coming soon, in version 2.0! insert time here}</div>
+          <div class="timestamp"><strong>timestamp:</strong> ${noteTime}</div>
         `;
     
       formElement.appendChild(inputButton);
@@ -48,12 +83,9 @@ chrome.storage.sync.get('note-current-index', (idxObj) => {
 
       document.body.appendChild(noteContainer);
 
-      document.getElementById(`annotation-input${i}`).addEventListener('keyup', (evt) => {
+      document.getElementById(`form${i}`).addEventListener('submit', (evt) => {
         evt.preventDefault();
-        if (evt.keyCode === 13) {
-          console.log('Enter pressed.');
-          document.getElementById(`button${i}`).click();
-        }
+        document.getElementById(`button${i}`).click();
       });
 
       chrome.storage.sync.get(`annotation${i}`, (annotationsObj) => {
@@ -70,8 +102,9 @@ chrome.storage.sync.get('note-current-index', (idxObj) => {
 
       let annotation = '';
 
-      inputButton.addEventListener('click', function() {
+      inputButton.addEventListener('click', function(evt) {
         annotation = this.previousSibling.value;
+        this.previousSibling.value = '';
         const annotationElement = document.createElement('div');
         annotationElement.setAttribute('class', 'annotation');
         annotationElement.innerText = annotation;
@@ -83,6 +116,9 @@ chrome.storage.sync.get('note-current-index', (idxObj) => {
           const o = {};
           o[annotationKey] = annotations;
           chrome.storage.sync.set(o, () => {
+            const noteContainer = document.getElementById(buttonKey).parentElement.parentElement;
+            const renderedAnnotations = noteContainer.getElementsByClassName('annotation');
+            Array.from(renderedAnnotations).forEach(e => e.remove());
             annotations.forEach((annotationText) => {
               const annotationElement = document.createElement('div');
               annotationElement.setAttribute('class', 'annotation');

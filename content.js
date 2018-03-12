@@ -21,10 +21,15 @@ chrome.runtime.onMessage.addListener((message) => {
       const currentIdx = typeof idxObj['note-current-index'] === 'number' ? idxObj['note-current-index'] + 1 : 0;
       const keyString = `note${currentIdx}`;
       const urlString = `note-url${currentIdx}`
+      const noteTimeKey = `note-time${currentIdx}`;
+      const noteNameKey = `note-name${currentIdx}`;
       console.log('in main.js, getting "note-current-index" from storage. currentIdx:', currentIdx);
       const o = {};
       o[keyString] = selection;
       o[urlString] = window.location.href;
+      o[noteTimeKey] = Date();
+      const maxLen = 30;
+      o[noteNameKey] = document.title.length > 15 ? document.title.replace(/\s*$/,'').substring(0, maxLen - 1) + '...' : document.title.replace(/\s*$/,'');
       objWrapper = {};
       const objWrapperKey = 'notecontainer' + currentIdx;
       console.log('objWrapperKey:', objWrapperKey);
