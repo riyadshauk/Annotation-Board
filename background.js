@@ -8,11 +8,13 @@ const getSelectionText = () => { // https://stackoverflow.com/questions/5379120/
   return text;
 };
 
-chrome.contextMenus.create({
-  contexts: ['all'],
-  title: 'Add selection to notes...',
-  onclick: (info, tab) => {
-    console.log('in background.js running getSelectionText:', getSelectionText());
-    chrome.tabs.sendMessage(tab.id, 'addnote');
-  }
-});
+if (chrome.contextMenus) {
+  chrome.contextMenus.create({
+    contexts: ['all'],
+    title: 'Add selection to notes...',
+    onclick: (info, tab) => {
+      console.log('in background.js running getSelectionText:', getSelectionText());
+      chrome.tabs.sendMessage(tab.id, 'addnote');
+    }
+  });
+}
