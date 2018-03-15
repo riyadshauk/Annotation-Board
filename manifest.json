@@ -11,7 +11,7 @@
     "default_title": "Note Board"
  },
   "content_scripts": [ {
-     "js": [ "content.js", "background.js" ],
+     "js": [ "content.js", "background.js", "note.js" ],
      "matches": [ "http://*/*", "https://*/*" ]
   } ],
   "description": "Highlight a selection that you want to save as a note to annotate.",
@@ -20,7 +20,7 @@
     "48": "icon48.png"
  },
   "manifest_version": 2,
-  "name": "Note and Annotate",
+  "name": "Annotation Board",
   "permissions": [ "contextMenus", "tabs", "http://*/*", "https://*/*", "storage", "file://*/*" ],
   "version": "1.0.0",
   "commands": {

@@ -1,5 +1,6 @@
 // @todo ifttt.com for google drive integration?
-
+// import Note from './note';
+// const aNote = new Note();
 const getSelectionText2 = () => { // https://stackoverflow.com/questions/5379120/get-the-highlighted-selected-text
   let text = "";
   if (window.getSelection) {
@@ -8,6 +9,21 @@ const getSelectionText2 = () => { // https://stackoverflow.com/questions/5379120
       text = document.selection.createRange().text;
   }
   return text;
+};
+
+const htmlEscapes = { // https://coderwall.com/p/ostduq/escape-html-with-javascript
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#x27;',
+  '/': '&#x2F;'
+};
+const htmlEscaper = /[&<>"'\/]/g;
+const htmlEscape = (string) => {
+  return ('' + string).replace(htmlEscaper, function(match) {
+    return htmlEscapes[match];
+  });
 };
 
 chrome.runtime.onMessage.addListener((message) => {
@@ -25,7 +41,7 @@ chrome.runtime.onMessage.addListener((message) => {
       const noteNameKey = `note-name${currentIdx}`;
       console.log('in main.js, getting "note-current-index" from storage. currentIdx:', currentIdx);
       const o = {};
-      o[keyString] = selection;
+      o[keyString] = htmlEscape(selection);
       o[urlString] = window.location.href;
       o[noteTimeKey] = Date();
       const maxLen = 30;

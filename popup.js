@@ -1,4 +1,6 @@
+// import Note from './note';
 chrome.storage.sync.get('note-current-index', (idxObj) => {
+  const aNote = new Note();
   console.log('idxObj:', idxObj);
   const numNotes = idxObj['note-current-index'] + 1;
   const clearButton = document.createElement('input');
@@ -73,8 +75,8 @@ chrome.storage.sync.get('note-current-index', (idxObj) => {
       noteContainer.setAttribute('class', 'noteContainer');
       noteContainer.innerHTML = `
           <div class="note"> <strong>${noteName}</strong>: ${note}</div>
-          <div class="url"><strong>url:</strong> <a href="${noteUrl}">${noteUrl}</a></div>
-          <div class="timestamp"><strong>timestamp:</strong> ${noteTime}</div>
+          <div class="url"><a href="${noteUrl}">${noteUrl}</a></div>
+          <div class="timestamp"><em>${noteTime}</em></div>
         `;
     
       formElement.appendChild(inputButton);
@@ -95,7 +97,7 @@ chrome.storage.sync.get('note-current-index', (idxObj) => {
         annotations.forEach((annotationText) => {
           const annotationElement = document.createElement('div');
           annotationElement.setAttribute('class', 'annotation');
-          annotationElement.innerText = annotationText;
+          annotationElement.innerText = '• ' + annotationText;
           document.getElementById(`button${i}`).parentElement.parentElement.appendChild(annotationElement);
         });
       });
@@ -122,7 +124,7 @@ chrome.storage.sync.get('note-current-index', (idxObj) => {
             annotations.forEach((annotationText) => {
               const annotationElement = document.createElement('div');
               annotationElement.setAttribute('class', 'annotation');
-              annotationElement.innerText = annotationText;
+              annotationElement.innerText = '• ' + annotationText;
               const annotationDiv = document.getElementById(annotationKey);
               document.getElementById(buttonKey).parentElement.parentElement.appendChild(annotationElement);
             });

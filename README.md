@@ -1,5 +1,3 @@
-# NoteAndAnnotateChromeExtension
+# Annotation Board (Chrome Extension)
 
-(work in progress)
-
-Created by Alyssa Atain and Riyad Shauk.
+![Annotation Board GIF](annotationboard.gif) 
